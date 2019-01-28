@@ -1,38 +1,37 @@
 package neuralNetwork;
 
-import java.util.ArrayList;
+import java.util.Random;
 
 public class LayerNode extends Node{
 	private float bias;
-	private float weight;
-	private final float ACC = 1024;
-	private ArrayList<Node> connections;
+	private Node[] connections;
+	private float[] weights;
 
-	public LayerNode(float bias, float weight) {
-		this.bias = bias;
-		this.weight = weight;
-	}
-	
-	public void getConnections() {
-		float rawVal = 0;
-		for(Node n : connections) {
-			rawVal += calcValue(n.value);
+	public LayerNode(Node[] connections) {
+	    Random r = new Random();
+		this.connections = connections;
+		weights = new float[connections.length];
+		
+		bias = r.nextFloat();
+		for(float f : weights) {
+		    f = r.nextFloat();
 		}
 		
 	}
 	
-	public float calcValue(float value) {
-		return(calcValue(weight, bias, value));
-	}
-	
-	public void shiftNode(float biasDiff, float weightDiff) {
-		bias += biasDiff;
-		weight += weightDiff;
-	}
-	
-	public void createConnection(Node ... nodes) {
-		for(Node n : nodes) {
-			connections.add(n);
+	public void getConnections() {
+		for(int i = 0; i < connections.length; i++) {
+			value = calcValue(connections[i].value, i);
 		}
+		
+	}
+	
+	private float calcValue(float value, int i) {
+		return(calcValue(weights[i], bias, value));
+	}
+	
+	public void shiftNode(float biasDiff, float weightDiff, int index) {
+		bias += biasDiff;
+		weights[index] += weightDiff;
 	}
 }
