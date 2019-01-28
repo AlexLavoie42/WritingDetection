@@ -16,7 +16,6 @@ public class LayerNode extends Node{
 		for(float f : weights) {
 		    f = r.nextFloat();
 		}
-		
 	}
 	
 	public void getConnections() {
